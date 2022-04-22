@@ -5,6 +5,10 @@ __pycache__/
 
 .DS_Store
 
+#note files
+EmployeeDB.png
+schema.sql
+
 # C extensions
 *.so
 
