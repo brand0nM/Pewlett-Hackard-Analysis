@@ -1,91 +1,96 @@
---1) Creating tables 
-CREATE TABLE departments (
-     dept_no VARCHAR(4) NOT NULL,
-     dept_name VARCHAR(40) NOT NULL,
-     PRIMARY KEY (dept_no),
-     UNIQUE (dept_name)
+--1) Create tables 
+
+CREATE TABLE DEPARTMENTS (
+     DEPT_NO VARCHAR(4) NOT NULL,
+     DEPT_NAME VARCHAR(40) NOT NULL,
+     PRIMARY KEY (DEPT_NO),
+     UNIQUE (DEPT_NAME)
 );
-CREATE TABLE employees (
-	emp_no int not null,
-	birth_date DATE NOT NULL,
-	first_name VARCHAR NOT NULL,
-	last_name VARCHAR NOT NULL,
-	gender VARCHAR NOT NULL,
-	hire_date DATE NOT NULL,
-	PRIMARY KEY (emp_no)
+CREATE TABLE EMPLOYEES (
+	EMP_NO INT NOT NULL,
+	BIRTH_DATE DATE NOT NULL,
+	FIRST_NAME VARCHAR NOT NULL,
+	LAST_NAME VARCHAR NOT NULL,
+	GENDER VARCHAR NOT NULL,
+	HIRE_DATE DATE NOT NULL,
+	PRIMARY KEY (EMP_NO)
 );
-CREATE TABLE dept_manager (
-dept_no VARCHAR(4) NOT NULL,
-    emp_no INT NOT NULL,
-    from_date DATE NOT NULL,
-    to_date DATE NOT NULL,
-FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
-    PRIMARY KEY (emp_no, dept_no)
+CREATE TABLE DEPT_MANAGER (
+	DEPT_NO VARCHAR(4) NOT NULL,
+	EMP_NO INT NOT NULL,
+	FROM_DATE DATE NOT NULL,
+	TO_DATE DATE NOT NULL,
+	FOREIGN KEY (EMP_NO) REFERENCES EMPLOYEES (EMP_NO),
+	FOREIGN KEY (DEPT_NO) REFERENCES DEPARTMENTS (DEPT_NO),
+	PRIMARY KEY (EMP_NO, DEPT_NO)
 );
-CREATE TABLE salaries (
-  emp_no INT NOT NULL,
-  salary INT NOT NULL,
-  from_date DATE NOT NULL,
-  to_date DATE NOT NULL,
-  FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-  PRIMARY KEY (emp_no)
+CREATE TABLE SALARIES (
+	EMP_NO INT NOT NULL,
+	SALARY INT NOT NULL,
+	FROM_DATE DATE NOT NULL,
+	TO_DATE DATE NOT NULL,
+	FOREIGN KEY (EMP_NO) REFERENCES EMPLOYEES (EMP_NO),
+	PRIMARY KEY (EMP_NO)
 );
-CREATE TABLE titles (
-  emp_no INT NOT NULL,
-  Title Varchar(50) NOT NULL,
-  from_date DATE NOT NULL,
-  to_date DATE NOT NULL,
-  FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-  PRIMARY KEY (emp_no)
+CREATE TABLE TITLES (
+	EMP_NO INT NOT NULL,
+	TITLE VARCHAR(50) NOT NULL,
+	FROM_DATE DATE NOT NULL,
+	TO_DATE DATE NOT NULL,
+	FOREIGN KEY (EMP_NO) REFERENCES EMPLOYEES (EMP_NO),
+	PRIMARY KEY (EMP_NO)
 );
-CREATE TABLE dept_emp (
-  emp_no INT NOT NULL,
-  dept_no Varchar(4) NOT NULL,
-  from_date DATE NOT NULL,
-  to_date DATE NOT NULL,
-  FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-  FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
-  PRIMARY KEY (emp_no, dept_no)
+CREATE TABLE DEPT_EMP (
+	EMP_NO INT NOT NULL,
+	DEPT_NO VARCHAR(4) NOT NULL,
+	FROM_DATE DATE NOT NULL,
+	TO_DATE DATE NOT NULL,
+	FOREIGN KEY (EMP_NO) REFERENCES EMPLOYEES (EMP_NO),
+	FOREIGN KEY (DEPT_NO) REFERENCES DEPARTMENTS (DEPT_NO),
+	PRIMARY KEY (EMP_NO, DEPT_NO)
 );
 
--- 2) Create retirment table
-select emp.emp_no, emp.first_name, emp.last_name, 
-	tit.title, tit.from_date, tit.to_date
-into retirement 
-from employees as emp
-inner join titles as tit
-on emp.emp_no = tit.emp_no
-WHERE (emp.birth_date between '1952-01-01' and '1955-12-31')
-order by emp_no asc, title asc, to_date desc ;
+-- 2) Create retirement table
 
--- Remove duplicate entries/ filter based on to_date
-select emp_no, (select distinct on (first_name) first_name), last_name, title 
-into retirement_info
-from retirement 
-where (to_date = '9999-01-01')
+SELECT EMP.EMP_NO, EMP.FIRST_NAME, EMP.LAST_NAME, 
+	TIT.TITLE, TIT.FROM_DATE, TIT.TO_DATE
+
+INTO RETIREMENT FROM EMPLOYEES AS EMP
+INNER JOIN TITLES AS TIT ON EMP.EMP_NO = TIT.EMP_NO
+	WHERE (EMP.BIRTH_DATE BETWEEN '1952-01-01' AND '1955-12-31')
+	ORDER BY EMP_NO ASC, TITLE ASC, TO_DATE DESC;
+
+-- Remove duplicate entries & filter based on to_date
+
+SELECT EMP_NO, (SELECT DISTINCT ON (FIRST_NAME) FIRST_NAME), 
+	LAST_NAME, TITLE 
+
+INTO RETIREMENT_INFO FROM RETIREMENT 
+	WHERE (TO_DATE = '9999-01-01')
 
 -- Retrieve number of employees about to retire by their most recent job
-select count(title), title 
-into retirement_count
-from retirement_info 
-group by title
-order by count(title) desc
 
--- create mentorship table
-select emp.emp_no, emp.first_name, emp.last_name, emp.birth_date,
-	dep.from_date, dep.to_date, tit.title
-into mentorship 
-from employees as emp
-inner join dept_emp as dep
-on emp.emp_no = dep.emp_no
-inner join titles as tit
-on emp.emp_no = tit.emp_no
-where ((dep.to_date = '9999-01-01') and (emp.birth_date between '1965-01-01' and '1965-12-31'))
-order by emp_no asc, title asc, to_date desc ;
+SELECT COUNT(TITLE), TITLE 
 
--- Filter the results
-select distinct on (emp_no) emp_no, first_name, 
-    last_name, birth_date, from_date, to_date, title
-into mentorship_info from mentorship 
+INTO RETIREMENT_COUNT FROM RETIREMENT_INFO 
+	GROUP BY TITLE 
+	ORDER BY COUNT(TITLE) DESC
 
+-- Create mentorship table
+
+SELECT EMP.EMP_NO, EMP.FIRST_NAME, EMP.LAST_NAME, EMP.BIRTH_DATE,
+	DEP.FROM_DATE, DEP.TO_DATE, TIT.TITLE
+
+INTO MENTORSHIP FROM EMPLOYEES AS EMP
+INNER JOIN DEPT_EMP AS DEP ON EMP.EMP_NO = DEP.EMP_NO
+INNER JOIN TITLES AS TIT ON EMP.EMP_NO = TIT.EMP_NO
+	WHERE (DEP.TO_DATE = '9999-01-01') AND 
+		(EMP.BIRTH_DATE BETWEEN '1965-01-01' AND '1965-12-31')
+	ORDER BY EMP_NO ASC, TITLE ASC, TO_DATE DESC ;
+
+-- Remove duplicates
+
+SELECT DISTINCT ON (EMP_NO) EMP_NO, FIRST_NAME, 
+    LAST_NAME, BIRTH_DATE, FROM_DATE, TO_DATE, TITLE
+
+INTO MENTORSHIP_INFO FROM MENTORSHIP 
