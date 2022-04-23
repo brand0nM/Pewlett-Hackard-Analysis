@@ -1,9 +1,9 @@
 # Pewlett-Hackard-Analysis
 ## Project Overview
-Our companies “silver tsunami” is rapidly approaching as many current employees reach retirement age. We've been tasked with determining the number of retiring employees per job title, and identify which employees are eligible to participate in the mentorship program.
+Pewlett Hackard's “silver tsunami” is rapidly approaching as many current employees reach retirement age. We've been tasked with determining the number of retiring employees per job title, and identify which employees are eligible to participate in the mentorship program.
 
 ### Purpose
-Using PostgreSQL create a local database, then use its querying language to gain insights from extensive CSV files.
+Using PostgreSQL create a database, then use its querying language to gain insights from extensive CSV files.
 
 ## Analysis
 There is a bulleted list with four major points from the two analysis deliverables. (6 pt)
