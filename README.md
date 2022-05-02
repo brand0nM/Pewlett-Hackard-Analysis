@@ -19,9 +19,10 @@ Then filter those results based on date between January 1 and December 31, 1965.
 <img width="972" alt="Screen Shot 2022-05-02 at 10 56 12 AM" src="https://user-images.githubusercontent.com/79609464/166291029-56f71566-b5c1-4eca-b55a-c831da9b4afb.png">
 
 ### Challenges and Difficulties Encountered
-name some challenges
+This was my first time analysing larger datasets (20MB-100MB.csv), but things were relatively smooth. The largest adjustment was to wait for opperations to complete (as there was more data).<br />
 
 ## Results
-
+The results are relatively self explanatory, but 72,458 employees are retiring this year; a breakdown can be viewed in the "Analysis/retiring_titles.csv". Additionally we have a list of 1,549 employees eligible for the mentorship program; the table can viewed at the "Analysis/mentorship_eligibilty.csv"
+ 
 ## Summary
 The summary addresses the two questions and contains two additional queries or tables that may provide more insight. (5 pt)
