@@ -23,6 +23,8 @@ This was my first time analysing larger datasets (20MB-100MB.csv), but things we
 
 ## Results
 72,458 employees are retiring this year; a breakdown can be viewed in the "Analysis/retiring_titles.csv". Additionally we have a list of 1,549 employees eligible for the mentorship program; the table can viewed at the "Analysis/mentorship_eligibilty.csv"
- 
+ <img width="539" alt="Screen Shot 2022-05-07 at 10 30 39 AM" src="https://user-images.githubusercontent.com/79609464/167263382-0cee79e1-f0f8-43dd-90d7-495c708e82d3.png"><br />
+To further investigate these results a new table was created showing the average birthday and start day of each department. From this we can deduce the lowest turnover comes from managarial positions and the highest in in . In addition age is evenly distibuted across all positions, since every title has the same average age of 1952.
+
 ## Summary
 The summary addresses the two questions and contains two additional queries or tables that may provide more insight. (5 pt)
